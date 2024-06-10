@@ -76,12 +76,14 @@ class HomeFragment : Fragment(R.layout.fragment_home), SearchView.OnQueryTextLis
     }
 
     private fun updateUI( note: List<Note>?) {
-        if (note.isNotEmpty()) {
-            binding.cardView.visibility = View.GONE
-            binding.recyclerView.visibility = View.VISIBLE
-        } else {
-            binding.cardView.visibility = View.VISIBLE
-            binding.cardView.visibility = View.GONE
+        if (note != null) {
+            if (note.isNotEmpty()) {
+                binding.cardView.visibility = View.GONE
+                binding.recyclerView.visibility = View.VISIBLE
+            } else {
+                binding.cardView.visibility = View.VISIBLE
+                binding.cardView.visibility = View.GONE
+            }
         }
     }
 
@@ -97,11 +99,28 @@ class HomeFragment : Fragment(R.layout.fragment_home), SearchView.OnQueryTextLis
     }
 
     override fun onQueryTextSubmit(query: String?): Boolean {
-        TODO("Not yet implemented")
+        //  searchNote(query)
+        return false
     }
 
     override fun onQueryTextChange(newText: String?): Boolean {
-        TODO("Not yet implemented")
+        if (newText != null){
+            searchNote(newText)
+        }
+        return true
+    }
+
+    private fun searchNote(query: String?) {
+        val searchQuery = "%$query"
+        notesViewModel.searchNote(searchQuery).observe(
+            this,
+            {list -> noteAdapter.differ.submitList(list)}
+        )
+    }
+
+    override fun onDestroy() {
+        super.onDestroy()
+        _binding = null
     }
 
 }
