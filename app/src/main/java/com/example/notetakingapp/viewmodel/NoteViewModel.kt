@@ -10,7 +10,7 @@ import kotlinx.coroutines.launch
 
 class NoteViewModel(
     app: Application,
-    val noteRepository: NoteRepository
+    private val noteRepository: NoteRepository
 ) : AndroidViewModel(app) {
 
     fun addNote(note: Note) = viewModelScope.launch {
@@ -28,6 +28,6 @@ class NoteViewModel(
     fun getAllNote() = noteRepository.getAllNotes()
 
 
-    fun searchNote(query: String?) = noteRepository.searchNotes(query)
+    fun searchNote(query: String?) = noteRepository.searchNote(query)
 
 }
