@@ -3,6 +3,7 @@ plugins {
     alias(libs.plugins.jetbrains.kotlin.android)
     id("androidx.navigation.safeargs")
     id("kotlin-parcelize")
+    id("kotlin-kapt")
 }
 
 android {
@@ -34,6 +35,7 @@ android {
     }
     buildFeatures {
         dataBinding = true
+        viewBinding = true
     }
 }
 
@@ -52,24 +54,22 @@ dependencies {
     val room_version = "2.6.1"
 
     implementation("androidx.room:room-runtime:$room_version")
-    annotationProcessor("androidx.room:room-compiler:$room_version")
     implementation("androidx.room:room-ktx:$room_version")
+    kapt ("androidx.room:room-compiler:$room_version")
 
     // Coroutine
     implementation("org.jetbrains.kotlinx:kotlinx-coroutines-android:1.6.4")
 
     // Navigation
     val nav_version = "2.7.7"
-
     implementation("androidx.navigation:navigation-fragment-ktx:$nav_version")
     implementation("androidx.navigation:navigation-ui-ktx:$nav_version")
 
     // Lifecycle
     val lifecycle_version = "2.8.1"
 
-    // ViewModel
+    // ViewModel & Live data
     implementation("androidx.lifecycle:lifecycle-viewmodel-ktx:$lifecycle_version")
-    // LiveData
     implementation("androidx.lifecycle:lifecycle-livedata-ktx:$lifecycle_version")
 
     // Saved state module for ViewModel

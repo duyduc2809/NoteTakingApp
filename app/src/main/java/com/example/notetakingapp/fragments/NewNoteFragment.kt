@@ -21,10 +21,7 @@ import com.example.notetakingapp.viewmodel.NoteViewModel
 class NewNoteFragment : Fragment(R.layout.fragment_new_note) {
     private var _binding: FragmentNewNoteBinding? = null
     private val binding get() = _binding!!
-
     private lateinit var notesViewModel: NoteViewModel
-    private lateinit var noteAdapter: NoteAdapter
-
     private lateinit var mView: View
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -48,16 +45,13 @@ class NewNoteFragment : Fragment(R.layout.fragment_new_note) {
     }
 
     private fun saveNote(view: View) {
-        val noteTitle = binding.etNoteTitle.text.toString()
+        val noteTitle = binding.etNoteTitle.text.toString().trim()
         val noteBody = binding.etNoteBody.text.toString().trim()
 
         if (noteTitle.isNotEmpty()) {
             val note = Note(0, noteTitle, noteBody)
-
             notesViewModel.addNote(note)
-
             Toast.makeText(mView.context, "Note Save Successfully", Toast.LENGTH_SHORT).show()
-
             view.findNavController().navigate(R.id.action_newNoteFragment_to_homeFragment)
         } else {
             Toast.makeText(mView.context, "Please enter note Title", Toast.LENGTH_SHORT).show()
@@ -68,8 +62,6 @@ class NewNoteFragment : Fragment(R.layout.fragment_new_note) {
         menu.clear()
         inflater.inflate(R.menu.menu_new_note, menu)
         super.onCreateOptionsMenu(menu, inflater)
-
-
     }
 
     override fun onDestroy() {

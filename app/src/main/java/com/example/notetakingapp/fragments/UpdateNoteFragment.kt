@@ -5,7 +5,7 @@ import android.view.LayoutInflater
 import android.view.Menu
 import android.view.MenuInflater
 import android.view.MenuItem
-import android.view.View
+import android.view.*
 import android.view.ViewGroup
 import android.widget.Toast
 import androidx.appcompat.app.AlertDialog
@@ -22,11 +22,8 @@ import com.example.notetakingapp.viewmodel.NoteViewModel
 class UpdateNoteFragment : Fragment(R.layout.fragment_update_note) {
     private var _binding: FragmentUpdateNoteBinding? = null
     private val binding get() = _binding!!
-
     private lateinit var notesViewModel: NoteViewModel
-
     private lateinit var currentNote: Note
-
     private val args: UpdateNoteFragmentArgs by navArgs()
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -51,6 +48,7 @@ class UpdateNoteFragment : Fragment(R.layout.fragment_update_note) {
         binding.etNoteTitleUpdate.setText(currentNote.noteTitle)
         binding.etNoteBodyUpdate.setText(currentNote.noteBody)
 
+        // If user update note
         binding.fabDone.setOnClickListener {
             val title = binding.etNoteTitleUpdate.text.toString().trim()
             val body = binding.etNoteBodyUpdate.text.toString().trim()
@@ -58,7 +56,6 @@ class UpdateNoteFragment : Fragment(R.layout.fragment_update_note) {
             if (title.isNotEmpty()) {
                 val note = Note(currentNote.id, title, body)
                 notesViewModel.updateNote(note)
-
                 view.findNavController().navigate(R.id.action_updateNoteFragment_to_homeFragment)
             } else {
                 Toast.makeText(context, "Note Update Successfully", Toast.LENGTH_SHORT).show()
@@ -68,14 +65,20 @@ class UpdateNoteFragment : Fragment(R.layout.fragment_update_note) {
 
     private fun deleteNote() {
         AlertDialog.Builder(requireActivity()).apply {
+
             setTitle("Delete Note")
             setMessage("You want to delete this Note?")
             setPositiveButton("Delete") { _, _ ->
                 notesViewModel.deleteNote(currentNote)
-                view?.findNavController()?.navigate(R.id.action_updateNoteFragment_to_homeFragment)
+
+                view?.findNavController()?.navigate(
+                    R.id.action_updateNoteFragment_to_homeFragment
+                )
+
             }
             setNegativeButton("Cancel", null)
         }.create().show()
+
 
     }
 

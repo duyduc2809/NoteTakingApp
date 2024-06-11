@@ -28,9 +28,7 @@ class HomeFragment : Fragment(R.layout.fragment_home), SearchView.OnQueryTextLis
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-
         setHasOptionsMenu(true)
-
     }
 
     override fun onCreateView(
@@ -82,7 +80,7 @@ class HomeFragment : Fragment(R.layout.fragment_home), SearchView.OnQueryTextLis
                 binding.recyclerView.visibility = View.VISIBLE
             } else {
                 binding.cardView.visibility = View.VISIBLE
-                binding.cardView.visibility = View.GONE
+                binding.recyclerView.visibility = View.GONE
             }
         }
     }
@@ -99,7 +97,7 @@ class HomeFragment : Fragment(R.layout.fragment_home), SearchView.OnQueryTextLis
     }
 
     override fun onQueryTextSubmit(query: String?): Boolean {
-        //  searchNote(query)
+          searchNote(query)
         return false
     }
 
@@ -113,9 +111,8 @@ class HomeFragment : Fragment(R.layout.fragment_home), SearchView.OnQueryTextLis
     private fun searchNote(query: String?) {
         val searchQuery = "%$query"
         notesViewModel.searchNote(searchQuery).observe(
-            this,
-            {list -> noteAdapter.differ.submitList(list)}
-        )
+            this
+        ) { list -> noteAdapter.differ.submitList(list) }
     }
 
     override fun onDestroy() {

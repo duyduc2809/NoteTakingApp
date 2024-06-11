@@ -6,6 +6,9 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
 import androidx.lifecycle.ViewModelProvider
+import androidx.navigation.findNavController
+import androidx.navigation.ui.AppBarConfiguration
+import androidx.navigation.ui.setupActionBarWithNavController
 import com.example.notetakingapp.database.NoteDatabase
 import com.example.notetakingapp.databinding.ActivityMainBinding
 import com.example.notetakingapp.repository.NoteRepository
@@ -18,10 +21,8 @@ class MainActivity : AppCompatActivity() {
     lateinit var noteViewModel: NoteViewModel
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        enableEdgeToEdge()
         binding = ActivityMainBinding.inflate(layoutInflater)
         setContentView(binding.root)
-
         setUpViewModel()
     }
 
@@ -36,4 +37,5 @@ class MainActivity : AppCompatActivity() {
             viewModelProviderFactory)
             .get(NoteViewModel::class.java)
     }
+
 }
